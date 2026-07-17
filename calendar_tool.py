@@ -1,6 +1,7 @@
 import os
 import datetime
 from google.oauth2.credentials import Credentials
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from dotenv import load_dotenv
 
@@ -9,7 +10,15 @@ load_dotenv()
 def get_calendar_service():
     if not os.path.exists('token.json'):
         raise Exception("Calendar is not authenticated. Missing token.json.")
+    # creds = Credentials.from_authorized_user_file('token.json', ['https://www.googleapis.com/auth/calendar.events'])
+    # return build('calendar', 'v3', credentials=creds)
+    
     creds = Credentials.from_authorized_user_file('token.json', ['https://www.googleapis.com/auth/calendar.events'])
+    if creds and creds.expired and creds.refresh_token:
+        creds.refresh(Request())
+        with open('token.json', 'w') as token_file:
+            token_file.write(creds.to_json())
+            
     return build('calendar', 'v3', credentials=creds)
 
 def check_availability(date_iso: str) -> str:

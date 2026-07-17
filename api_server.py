@@ -23,4 +23,5 @@ def handle_availability():
 
 if __name__ == '__main__':
     print("🚀 Local API Bridge running on http://127.0.0.1:5000")
+    print("🚀 Nova AI Assistant running on http://localhost:8000")
     app.run(port=5000)

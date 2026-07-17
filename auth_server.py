@@ -30,7 +30,8 @@ flow = Flow.from_client_config(
 
 @app.route('/')
 def index():
-    auth_url, _ = flow.authorization_url(prompt='consent')
+    # auth_url, _ = flow.authorization_url(prompt='consent')
+    auth_url, _ = flow.authorization_url(prompt='consent', access_type='offline')
     return f'<h2>AI Calling Assistant</h2><a href="{auth_url}">Click here to Authorize Google Calendar</a>'
 
 @app.route('/auth/callback')
