@@ -1,0 +1,4 @@
+.\.venv\Scripts\Activate.ps1
+python auth_server.py
+python api_server.py
+python -m http.server 8000
