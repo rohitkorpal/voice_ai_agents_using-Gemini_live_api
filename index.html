@@ -22,6 +22,7 @@
             --success-glow: rgba(16, 185, 129, 0.4);
         }
 
+        /* Old body style (preserved)
         body {
             margin: 0;
             padding: 0;
@@ -35,6 +36,30 @@
             min-height: 100vh;
             overflow: hidden;
             position: relative;
+        }
+        */
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(-45deg, #05070f, #0c1530, #1c274c, #070913);
+            background-size: 400% 400%;
+            animation: gradient-motion 18s ease infinite;
+            color: var(--text-main);
+            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradient-motion {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         /* Ambient background glow effects */
