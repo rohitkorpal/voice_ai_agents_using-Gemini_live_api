@@ -22,29 +22,10 @@
             --success-glow: rgba(16, 185, 129, 0.4);
         }
 
-        /* Old body style (preserved)
         body {
             margin: 0;
             padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow: hidden;
-            position: relative;
-        }
-        */
-
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(-45deg, #05070f, #0c1530, #1c274c, #070913);
-            background-size: 400% 400%;
-            animation: gradient-motion 18s ease infinite;
+            background-color: #05070f;
             color: var(--text-main);
             font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
             display: flex;
@@ -56,43 +37,16 @@
             position: relative;
         }
 
-        @keyframes gradient-motion {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Ambient background glow effects */
-        .bg-glow-1 {
-            position: absolute;
-            top: 20%;
-            left: 15%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(50px);
-            pointer-events: none;
-            animation: float-glow 12s ease-in-out infinite alternate;
+        #bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
-        }
-
-        .bg-glow-2 {
-            position: absolute;
-            bottom: 25%;
-            right: 15%;
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, rgba(0,0,0,0) 70%);
-            filter: blur(60px);
             pointer-events: none;
-            animation: float-glow 15s ease-in-out infinite alternate-reverse;
-            z-index: 0;
         }
 
-        @keyframes float-glow {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 30px) scale(1.1); }
-        }
 
         .container {
             position: relative;
@@ -392,9 +346,11 @@
 </head>
 
 <body>
-    <!-- Ambient background glows -->
+    <canvas id="bgCanvas"></canvas>
+    <!-- Old Ambient background glows (preserved)
     <div class="bg-glow-1"></div>
     <div class="bg-glow-2"></div>
+    -->
 
     <div id="setupModal" class="setup-modal">
         <div class="setup-card">
@@ -421,228 +377,83 @@
         </div>
     </div>
 
-    <!--
-    === ORIGINAL DESIGN (PRESERVED PER BEHAVIOR RULE 1) ===
-    <style>
-        :root {
-            --bg-color: #0f172a;
-            --surface: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --accent: #3b82f6;
-            --danger: #ef4444;
-            --success: #10b981;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        .status-badge {
-            position: absolute;
-            top: 2rem;
-            background: var(--surface);
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: 1px solid #334155;
-        }
-
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .dot.live {
-            background: var(--success);
-            box-shadow: 0 0 10px var(--success);
-        }
-
-        .dot.speaking {
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        .orb-container {
-            position: relative;
-            width: 150px;
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .call-button {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: none;
-            background: var(--surface);
-            color: var(--text-main);
-            font-size: 2rem;
-            cursor: pointer;
-            z-index: 10;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-            transition: background 0.3s;
-        }
-
-        .call-button.active {
-            background: var(--danger);
-            color: white;
-            transform: scale(var(--mic-scale, 1));
-        }
-
-        .ring {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 2px solid var(--accent);
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(var(--ai-scale, 1));
-            transition: transform 0.05s ease-out, opacity 0.15s;
-        }
-
-        .speaking-mode .ring {
-            opacity: 0.8;
-        }
-
-        .transcript-container {
-            width: 90%;
-            max-width: 500px;
-            height: 300px;
-            background: var(--surface);
-            border-radius: 16px;
-            padding: 1rem;
-            overflow-y: auto;
-            border: 1px solid #334155;
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
-
-        .message {
-            font-size: 0.95rem;
-            line-height: 1.5;
-            padding: 0.75rem 1rem;
-            border-radius: 12px;
-            max-width: 80%;
-            width: fit-content;
-            word-wrap: break-word;
-        }
-
-        .user-msg {
-            background: #334155;
-            align-self: flex-end;
-            color: white;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-msg {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid rgba(59, 130, 246, 0.2);
-            align-self: flex-start;
-            color: #60a5fa;
-            border-bottom-left-radius: 4px;
-        }
-
-        .system-msg {
-            align-self: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .tool-card {
-            align-self: center;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px dashed var(--success);
-            color: #34d399;
-            font-family: monospace;
-            font-size: 0.85rem;
-            border-radius: 8px;
-            padding: 0.75rem 1rem;
-            width: 90%;
-            box-sizing: border-box;
-            white-space: pre-wrap;
-        }
-
-        .setup-modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(15, 23, 42, 0.95);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .setup-modal.hidden {
-            display: none;
-        }
-
-        .api-input {
-            padding: 1rem;
-            border-radius: 8px;
-            border: 1px solid #334155;
-            background: #0f172a;
-            color: white;
-            width: 300px;
-            margin-bottom: 1rem;
-        }
-
-        .btn-start {
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            background: var(--success);
-            color: white;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-    <body>
-        <div id="setupModal" class="setup-modal">
-            <h2>Welcome to NovaVoice</h2>
-            <input type="password" id="apiKey" class="api-input" placeholder="Enter Gemini API Key (AIza...)">
-            <button id="startSessionBtn" class="btn-start">Connect to Agent</button>
-        </div>
-
-        <div class="status-badge" id="statusBadge">
-            <div class="dot" id="statusDot"></div>
-            <span id="statusText">Disconnected</span>
-        </div>
-
-        <div class="orb-container" id="orbContainer">
-            <div class="ring"></div>
-            <button class="call-button" id="callBtn">🎙️</button>
-        </div>
-
-        <div class="transcript-container" id="transcript">
-            <div class="message system-msg">Waiting to connect...</div>
-        </div>
-    </body>
-    -->
-
     <script>
+        // --- Ambient Shifting Canvas Background Animation ---
+        (function() {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+            
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+            
+            class Circle {
+                constructor(x, y, radius, color, vx, vy) {
+                    this.x = x;
+                    this.y = y;
+                    this.radius = radius;
+                    this.color = color;
+                    this.vx = vx;
+                    this.vy = vy;
+                }
+                
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    
+                    if (this.x < 0 || this.x > width) {
+                        this.vx = -this.vx;
+                    }
+                    if (this.y < 0 || this.y > height) {
+                        this.vy = -this.vy;
+                    }
+                }
+                
+                draw() {
+                    const gradient = ctx.createRadialGradient(
+                        this.x, this.y, 0,
+                        this.x, this.y, this.radius
+                    );
+                    gradient.addColorStop(0, this.color);
+                    gradient.addColorStop(1, 'rgba(5, 7, 15, 0)');
+                    
+                    ctx.fillStyle = gradient;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            const circles = [
+                new Circle(width * 0.25, height * 0.3, Math.min(width, height) * 0.45, 'rgba(59, 130, 246, 0.15)', 0.6, 0.4),
+                new Circle(width * 0.75, height * 0.7, Math.min(width, height) * 0.5, 'rgba(16, 185, 129, 0.12)', -0.5, 0.3),
+                new Circle(width * 0.5, height * 0.5, Math.min(width, height) * 0.48, 'rgba(139, 92, 246, 0.15)', 0.4, -0.6),
+                new Circle(width * 0.3, height * 0.8, Math.min(width, height) * 0.35, 'rgba(236, 72, 153, 0.1)', -0.3, -0.4)
+            ];
+            
+            function animate() {
+                ctx.fillStyle = '#05070f';
+                ctx.fillRect(0, 0, width, height);
+                
+                ctx.globalCompositeOperation = 'lighter';
+                
+                circles.forEach(circle => {
+                    circle.update();
+                    circle.draw();
+                });
+                
+                ctx.globalCompositeOperation = 'source-over';
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        })();
+
         const UI = {
             setupModal: document.getElementById('setupModal'),
             startBtn: document.getElementById('startSessionBtn'),
